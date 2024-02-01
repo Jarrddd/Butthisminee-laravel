@@ -10,6 +10,8 @@ use App\Http\Controllers\SliderController;
 use App\Http\Controllers\TestimoniController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
+
 
 
 
@@ -40,6 +42,8 @@ Route::get('/pesanan/dikemas', [OrderController::class, 'dikemas_list']);
 Route::get('/pesanan/dikirim', [OrderController::class, 'dikirim_list']);
 Route::get('/pesanan/diterima', [OrderController::class, 'diterima_list']);
 Route::get('/pesanan/selesai', [OrderController::class, 'selesai_list']);
+
+Route::get('/laporan', [ReportController::class, 'index']);
 
 
 Route::get('/dashboard', [DashboardController::class, 'index']);
