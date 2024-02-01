@@ -10,21 +10,43 @@
         </h4>
     </div>
     <div class="card-body">
+
+        <div class="row">
+            <div class="col-md-6">
+                <form >
+                    <div class="form-group">
+                        <label for="">Dari</label>
+                        <input type="date" name="dari" id="dari" class="form-control" value="{{request()->input('dari')}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Sampai</label>
+                        <input type="date" name="sampai" id="sampai" class="form-control" value="{{request()->input('sampai')}}">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    @if (request()->input('dari'))
+
         <div class="table-responsive">
             <table class="table table-bordered table-hover table-striped">
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Kode Barang</th>
-                        <th>Invoice</th>
-                        <th>Member</th>
-                        <th>Total</th>
-                        <th>Aksi</th>
+                        <th>Nama Barang</th>
+                        <th>Harga</th>
+                        <th>Jumlah Dibeli</th>     
+                        <th>Pendapatan</th>
+                        <th>Total Qty</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
             </table>
         </div>
+        @endif
     </div>
 </div>
     
@@ -35,6 +57,9 @@
 
     //ubah data
     $(function(){
+
+            const dari = '{{ request()->input('dari') }}'
+            const sampai = '{{ request()->input('sampai') }}'
         
             function rupiah(angka){
                 const numb = 1000000;
@@ -43,20 +68,9 @@
                 return 'Rp ' + convert.join('.').split('').reverse().join('')
             }
 
-            function date(date) {
-                var date = new Date(date);
-                var day = date.getDate();
-                var month = date.getMonth();
-                var year = date.getFullYear()
-
-                return `${day}-${month}-${year}`;
-            }
-
-
-
         const token = localStorage.getItem('token')
         $.ajax({
-            url: '/api/pesanan/baru',
+            url: `/api/reports?dari=${dari}&sampai=${sampai}`,
             headers: {
                         "Authorization": 'Bearer ' + token
                     },
@@ -67,13 +81,11 @@
                     row += `
                     <tr>
                         <td>${index+1}</td>
-                        <td>${date(val.created_at)}</td>
-                        <td>${val.invoice}</td>
-                        <td>${val.member.nama_member}</td>
-                        <td>${rupiah(val.grand_total)}</td>
-                        <td>
-                            <a href="#" data-id="${val.id}" class="btn btn-success btn-aksi">Konfirmasi</a>
-                        </td>
+                        <td>${val.nama_barang}</td>
+                        <td>${rupiah(val.harga)}</td>
+                        <td>${val.jumlah_dibeli}</td>
+                        <td>${rupiah(val.pendapatan)}</td>
+                        <td>${val.total_qty}</td>
                     </tr>
                     `;
                 });
