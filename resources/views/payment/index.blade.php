@@ -1,26 +1,26 @@
 @extends('layout.app')
 
-@section('title', 'Data Kategori')
+@section('title', 'Data Pembayaran')
 
 @section('content')
 <div class="card shadow">
     <div class="card-header">
         <h4 class="card-title">
-            Data Kategori
+            Data Pembayaran
         </h4>
     </div>
     <div class="card-body">
-        <div class="d-flex justify-content-end mb-4 ">
-            <a href="#modal-form" class="btn btn-primary modal-tambah">Tambah Data</a>
-        </div>
         <div class="table-responsive">
             <table class="table table-bordered table-hover table-striped">
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nama Kategori</th>
-                        <th>Deskripsi</th>
-                        <th>Gambar</th>
+                        <th>Tanggal</th>
+                        <th>Order</th>
+                        <th>Jumlah</th>
+                        <th>No Rekening</th>
+                        <th>Atas Nama</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -33,7 +33,7 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">  
         <div class="modal-header">
-          <h5 class="modal-title">Form Kategori</h5>
+          <h5 class="modal-title">Form Pembayaran</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -41,20 +41,31 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col-md-12">
-                    <form class="form-kategori">
+                    <form class="form-Pembayaran">
                         <div class="form-group">
-                            <label for="">Nama Kategori</label>
-                            <input type="text" class="form-control" name="nama_kategori" 
-                                placeholder="Nama Kategori" required>
+                            <label for="">Tanggal</label>
+                            <input type="text" class="form-control" name="tanggal" placeholder="Tanggal" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="">Deskripsi</label>
-                            <textarea name="deskripsi" placeholder="Deskripsi" class="form-control" id="" cols="30" rows="10" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Gambar</label>
-                            <input type="file" class="form-control" name="gambar">
-                        </div>
+                            <label for="">Jumlah</label>
+                            <input type="text" class="form-control" name="jumlah" placeholder="Jumlah" readonly>
+                       </div>
+                       <div class="form-group">
+                            <label for="">No Rekening</label>
+                            <input type="text" class="form-control" name="no_rekening" placeholder="No Rekening" readonly>
+                       </div>
+                       <div class="form-group">
+                            <label for="">Atas Nama</label>
+                            <input type="text" class="form-control" name="atas_nama" placeholder="Atas Nama" readonly>
+                       </div>
+                       <div class="form-group">
+                        <label for="">Status</label>
+                        <select name="status" id="status" class="form-control">
+                        <option value="DITERIMA">DITERIMA</option>
+                        <option value="DITOLAK">DITOLAK</option>
+                        <option value="MENUNGGU">MENUNGGU</option>
+                        </select>
+                       </div>  
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block">Submit</button>
                         </div>
@@ -78,20 +89,24 @@
     $(function(){
 
         $.ajax({
-            url: 'api/categories',
+            url: 'api/payments',
             success : function ({data}) {
-
+           
                 let row;
                 data.map(function(val, index) {
+                    tgl = new Date(val.created_at)
+                    tgl_lengkap = `${tgl.getDate()}-${tgl.getMonth()}-${tgl.getFullYear()}`
                     row += `
                     <tr>
                         <td>${index+1}</td>
-                        <td>${val.nama_kategori}</td>
-                        <td>${val.deskripsi}</td>
-                        <td><img src="/uploads/${val.gambar}" width="150"</td>
+                        <td>${tgl_lengkap}</td>
+                        <td>${val.id_order}</td>
+                        <td>${val.jumlah}</td>
+                        <td>${val.no_rekening}</td>
+                        <td>${val.atas_nama}</td>
+                        <td>${val.status}</td>
                         <td>
-                            <a href="#modal-form" data-id="${val.id}" class="btn btn-warning modal-ubah">Edit</>
-                            <a href="#" data-id="${val.id}" class="btn btn-danger btn-hapus">hapus</>
+                            <a href="#modal-form" data-id="${val.id}" class="btn btn-warning modal-ubah">Edit</a>
                         </td>
                     </tr>
                     `;
@@ -111,7 +126,7 @@
 
             if (confirm_dialog) {
                 $.ajax({
-                    url : '/api/categories/' + id,
+                    url : '/api/payments/' + id,
                     type : "DELETE",
                     headers: {
                         "Authorization": "Bearer " +token
@@ -129,56 +144,37 @@
 
         });
 
-        //Tambah Data
-        $('.modal-tambah').click(function(){
-            $('#modal-form').modal('show')
-            $('input[name="nama_kategori"]').val('')
-            $('textarea[name="deskripsi"]').val('')
-            
-            $('.form-kategori').submit(function(e){
-                e.preventDefault()
-                const token = localStorage.getItem('token')
+        function date(date) {
+                var date = new Date(date);
+                var day = date.getDate();
+                var month = date.getMonth();
+                var year = date.getFullYear()
 
-                const frmdata = new FormData(this);
-
-                $.ajax({
-                    url : 'api/categories',
-                    type : 'POST',
-                    data : frmdata,
-                    cache:false,
-                    contentType: false,
-                    processData: false,
-                    headers: {
-                        Authorization : "Bearer " + token 
-                    },
-                    success : function(data){
-                        if (data.success) {
-                        alert('Data berhasil ditambah')
-                            location.reload();
-                        }
-                    }
-                })
-            });
-        });
+                return `${day}-${month}-${year}`;
+            }
 
         //ubah data
         $(document).on('click', '.modal-ubah', function(){
             $('#modal-form').modal('show')
             const id = $(this).data('id');
 
-            $.get('/api/categories/' + id, function({data}){
-                $('input[name="nama_kategori"]').val(data.nama_kategori);
-                $('textarea[name="deskripsi"]').val(data.deskripsi);
+            $.get('/api/payments/' + id, function({data}){
+
+                $('input[name="tanggal"]').val(date(data.created_at));
+                $('input[name="jumlah"]').val(data.jumlah);
+                $('input[name="no_rekening"]').val(data.no_rekening);
+                $('input[name="atas_nama"]').val(data.atas_nama);
+                $('input[name="status"]').val(data.status);
             });
 
-            $('.form-kategori').submit(function(e){
+            $('.form-Pembayaran').submit(function(e){
                 e.preventDefault()
                 const token = localStorage.getItem('token')
 
                 const frmdata = new FormData(this); 
 
                 $.ajax({
-                    url : `api/categories/${id}?_method=PUT`,
+                    url : `api/payments/${id}?_method=PUT`,
                     type : 'POST',
                     data : frmdata,
                     cache:false,

@@ -95,6 +95,11 @@
                     <span>Laporan Pesanan</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="/payment">
+                    <i class="fas fa-fw fa-credit-card"></i>
+                    <span>Pembayaran</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="/logout">
                     <i class="fas fa-fw fa-sign-out-alt"></i>
                     <span>Logout</span></a>
@@ -125,7 +130,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Danang Bokur</span>
                                 <img class="img-profile rounded-circle"
                                     src="/sbadmin2/img/undraw_profile.svg">
                             </a>

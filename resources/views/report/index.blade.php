@@ -39,8 +39,8 @@
                         <th>Nama Barang</th>
                         <th>Harga</th>
                         <th>Jumlah Dibeli</th>     
-                        <th>Pendapatan</th>
                         <th>Total Qty</th>
+                        <th>Pendapatan</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -84,8 +84,8 @@
                         <td>${val.nama_barang}</td>
                         <td>${rupiah(val.harga)}</td>
                         <td>${val.jumlah_dibeli}</td>
-                        <td>${rupiah(val.pendapatan)}</td>
                         <td>${val.total_qty}</td>
+                        <td>${rupiah(val.pendapatan)}</td>
                     </tr>
                     `;
                 });

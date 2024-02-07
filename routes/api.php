@@ -10,6 +10,7 @@ use App\Http\Controllers\TestimoniController;
 use App\Http\Controllers\ReviewController;   
 use App\Http\Controllers\OrderController; 
 use App\Http\Controllers\ReportController; 
+use App\Http\Controllers\PaymentController; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +36,9 @@ Route::group([
        'members' => MemberController::class,
        'testimonis' => TestimoniController::class,
        'reviews' => ReviewController::class,
-       'orders' => OrderController::class
+       'orders' => OrderController::class,
+       'payments' => PaymentController::class,
+
 
        
     ]);
