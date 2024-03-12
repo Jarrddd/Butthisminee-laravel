@@ -22,10 +22,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// auth
+// auth adm
 Route::get('login', [Authcontroller::class, 'index'])->name('login');
 Route::post('login', [Authcontroller::class, 'login']);
 Route::get('logout', [Authcontroller::class, 'logout']);
+
+// login member
+Route::get('login_member', [Authcontroller::class, 'login_member']);
+Route::post('login_member', [Authcontroller::class, 'login_member_action']);
+Route::get('logout_member', [Authcontroller::class, 'logout_member']);
+
+//register
+Route::get('register_member', [Authcontroller::class, 'register_member']);
+Route::post('register_member', [Authcontroller::class, 'register_member_action']);
+
+
 
 
 
@@ -38,7 +49,7 @@ Route::get('/testimoni', [TestimoniController::class, 'list']);
 Route::get('/review', [ReviewController::class, 'list']);
 Route::get('/payment', [PaymentController::class, 'list']);
 
-
+//pesanan
 Route::get('/pesanan/baru', [OrderController::class, 'list']);
 Route::get('/pesanan/dikonfirmasi', [OrderController::class, 'dikonfirmasi_list']);
 Route::get('/pesanan/dikemas', [OrderController::class, 'dikemas_list']);
