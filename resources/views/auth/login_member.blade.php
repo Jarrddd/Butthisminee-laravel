@@ -22,7 +22,6 @@
                   @endforeach
              </ul>
                 @else
-                 <p>No errors found.</p>
                   @endif
 
                 @if (Session::has('success'))
