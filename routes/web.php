@@ -61,7 +61,7 @@ Route::get('/pesanan/dikirim', [OrderController::class, 'dikirim_list']);
 Route::get('/pesanan/diterima', [OrderController::class, 'diterima_list']);
 Route::get('/pesanan/selesai', [OrderController::class, 'selesai_list']);
 
-Route::get('/laporan', [ReportConrtoller::class, 'index']);
+Route::get('/laporan', [ReportController::class, 'index']);
 
 Route::get('/tentang', [TentangController::class, 'index']);
 Route::post('/tentang/{about}', [TentangController::class, 'update']);

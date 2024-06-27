@@ -297,7 +297,7 @@
 
                             <div class="col-sm-6 copyright sm-text-center">
                                 <span>
-                                    &copy; 2017 Zenna Theme, Made by <a href="http://deothemes.com">DeoThemes</a>
+                                    &copy; 2024 jupri, Made by jupri <a href=>juprithemess</a>
                                 </span>
                             </div>
 

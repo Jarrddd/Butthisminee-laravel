@@ -11,4 +11,3 @@ class About extends Model
     protected $guarded = [];
     protected $table = "about";
 }
-    

@@ -27,55 +27,53 @@
         </div>
     </div>
 </div>
-    
+
 @endsection
+
 
 @push('js')
 <script>
+    $(function() {
 
-    //ubah data
-    $(function(){
-        
-            function rupiah(angka){
-                const numb = 1000000;
-                const format = numb.toString().split('').reverse().join('');
-                const convert = format.match(/\d{1,3}/g);
-                return 'Rp ' + convert.join('.').split('').reverse().join('')
-            }
+        function rupiah(angka){
+            const format = angka.toString().split('').reverse().join('');
+            const convert = format.match(/\d{1,3}/g);
+            return 'Rp ' + convert.join('.').split('').reverse().join('')
+        }
 
-            function date(date) {
-                var date = new Date(date);
-                var day = date.getDate();
-                var month = date.getMonth();
-                var year = date.getFullYear()
+        function date(date) {
+            var date = new Date(date);
+            var day = date.getDate(); //Date of the month: 2 in our example
+            var month = date.getMonth(); //Month of the Year: 0-based index, so 1 in our example
+            var year = date.getFullYear()
 
-                return `${day}-${month}-${year}`;
-            }
-
-
+            return `${day}-${month}-${year}`;
+        }
 
         const token = localStorage.getItem('token')
         $.ajax({
             url: '/api/pesanan/diterima',
             headers: {
-                        "Authorization": 'Bearer ' + token
-                    },
-            success : function ({data}) {
+                "Authorization": 'Bearer ' + token
+            },
+            success: function({
+                data
+            }) {
 
                 let row;
                 data.map(function(val, index) {
                     row += `
-                    <tr>
-                        <td>${index+1}</td>
-                        <td>${date(val.created_at)}</td>
-                        <td>${val.invoice}</td>
-                        <td>${val.member.nama_member}</td>
-                        <td>${rupiah(val.grand_total)}</td>
-                        <td>
-                            <a href="#" data-id="${val.id}" class="btn btn-success btn-aksi">Selesai</a>
-                        </td>
-                    </tr>
-                    `;
+                        <tr>
+                            <td>${index+1}</td>
+                            <td>${date(val.created_at)}</td>
+                            <td>${val.invoice}</td>
+                            <td>${val.member.nama_member}</td>
+                            <td>${rupiah(val.grand_total)}</td>
+                            <td>
+                                <a href="#" data-id="${val.id}" class="btn btn-success btn-aksi">Selesai</a>
+                            </td>
+                        </tr>
+                        `;
                 });
 
                 $('tbody').append(row)
@@ -90,16 +88,16 @@
                 type : 'POST',
                 data : {
                     status : 'Selesai'
-            },
+                },
                 headers: {
-                        "Authorization": 'Bearer ' + token
-                    },
-                    success : function(data){
-                        location.reload()
-                    }
+                    "Authorization": 'Bearer ' + token
+                },
+                success : function(data){
+                   location.reload()
+                }
             })
-
         })
+
     });
 </script>
 @endpush
